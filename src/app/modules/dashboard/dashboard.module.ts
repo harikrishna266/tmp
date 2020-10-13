@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { DashboardComponent } from './dashboard.component';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    CoreModule
+    CoreModule,
+    DragDropModule
 
   ]
 })

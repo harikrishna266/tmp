@@ -26,7 +26,8 @@ import { MaterialModules } from './material';
     CoreModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MaterialModules
+    MaterialModules,
+
   ],
   providers: [],
   bootstrap: [AppComponent],

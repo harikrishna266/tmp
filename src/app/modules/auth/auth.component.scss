@@ -21,7 +21,8 @@
 }
 
 .app-routings {
-  height: 100%;
+  height: calc(100% - 90px);
+  padding: 15px;
 }
 
 .weather-board {
@@ -29,6 +30,4 @@
   text-align: center;
 }
 
-.app-routings {
-  padding: 15px;
-}
+

@@ -1,3 +1,4 @@
+import { DashboardModule } from './dashboard/dashboard.module';
 import { MaterialModules } from './../material';
 import { LoginModule } from './login/login.module';
 import { NgModule } from '@angular/core';

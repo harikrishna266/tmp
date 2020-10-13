@@ -1,0 +1,41 @@
+.h-card {
+  display: flex;
+  background: #455176;
+  border-radius: 4px;
+  box-shadow: 0 0 7px -4px rgba(0,0,0,.5);
+
+  .icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(0,0,0,.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px 0 0 4px;
+    flex-shrink: 0;
+
+    &::ng-deep {
+      .flight-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 30px;
+        }
+      }
+    }
+
+  }
+
+  .card-content {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+
+    .content {
+      opacity: .7;
+    }
+  }
+}

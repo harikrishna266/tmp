@@ -1,1 +1,48 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <div class="dashboard-left" cdkDropListGroup>
+    <div class="section">
+      <div class="section-title">
+        Flights Inbound
+      </div>
+      <div cdkDropList [cdkDropListData]="inBoundFlights" #inBoundFlightsList="cdkDropList" [cdkDropListConnectedTo]="[queueFlightsList]">
+        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of inBoundFlights" cdkDrag [cdkDragData]="item"></app-h-card>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        Flights in Queue
+      </div>
+      <div cdkDropList [cdkDropListData]="queueFlights" #queueFlightsList="cdkDropList" [cdkDropListConnectedTo]="[padQueueFlightsList, gateQueueFlightsList]">
+        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of queueFlights" cdkDrag [cdkDragData]="item"></app-h-card>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        Flights Outbound
+      </div>
+      <div cdkDropList [cdkDropListData]="queueFlights" #outBoundFlightsList="cdkDropList" [cdkDropListConnectedTo]="[padQueueFlightsList]">
+        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of outBoundFlights" cdkDrag [cdkDragData]="item"></app-h-card>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard-center">
+    <div class="pad">
+
+      <div style="width: 200px;" cdkDropList [cdkDropListData]="padQueueList" #padQueueFlightsList="cdkDropList" [cdkDropListConnectedTo]="[queueFlightsList]" (cdkDropListDropped)="drop($event)">
+        Pad
+        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of padQueueList" cdkDrag [cdkDragData]="item"></app-h-card>
+      </div>
+
+      <div style="width: 200px; height: 200p;" cdkDropList [cdkDropListData]="gateQueueList" #gateQueueFlightsList="cdkDropList" [cdkDropListConnectedTo]="[queueFlightsList]" (cdkDropListDropped)="drop($event)">
+        gate
+        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of gateQueueList" cdkDrag [cdkDragData]="item"></app-h-card>
+      </div>
+
+    </div>
+  </div>
+  <div class="dashboard-right">
+    Right
+  </div>
+</div>
