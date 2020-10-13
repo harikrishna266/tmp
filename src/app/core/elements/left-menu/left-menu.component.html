@@ -1,0 +1,9 @@
+
+<div  class="app-left-bar">
+  <div class="tree-menu">
+    <app-menu-item [menuIcon]="menu.icon" [menuText]="menu.menuText" [children]="menu.children" [menuIndex]="i" *ngFor="let menu of menus; let i = index"></app-menu-item>
+
+    <app-menu-item [menuIcon]="'icon'" [menuText]="'activeTest'" [children]="[]"></app-menu-item>
+  </div>
+</div>
+

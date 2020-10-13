@@ -1,0 +1,10 @@
+@import '../../../../assets/scss/variables.scss';
+
+button {
+  border-radius: $radius;
+
+  @include themify($themes) {
+    color: themed('textColor');
+    background-color: themed('backgroundColor');
+  }
+}

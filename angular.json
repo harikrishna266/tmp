@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "deicing-app"
+    }
+  },
+  "defaultProject": "deicing-app",
+  "cli": {
+    "analytics": false
+  }
 }
