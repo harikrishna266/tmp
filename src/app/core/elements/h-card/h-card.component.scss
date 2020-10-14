@@ -1,8 +1,22 @@
+@import "../../../../assets/scss/variables.scss";
+
 .h-card {
   display: flex;
   background: #455176;
   border-radius: 4px;
   box-shadow: 0 0 7px -4px rgba(0,0,0,.5);
+
+  &.inbound{
+	  background: $inbound-bg;
+  }
+
+  &.queue{
+	background: $queue-bg;
+}
+
+&.outbound{
+	background: $outbound-bg;
+}
 
   .icon {
     width: 50px;

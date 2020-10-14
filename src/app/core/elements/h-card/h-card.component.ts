@@ -7,13 +7,12 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
   styleUrls: ['./h-card.component.scss']
 })
 export class HCardComponent implements OnInit {
-  @Input() icon;
-  @Input() content;
+  @Input() cardDetails;
+  @Input() type;
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.icon);
-    console.log(this.content);
+	console.log(this.type)
   }
 
 }

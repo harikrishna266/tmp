@@ -1,19 +1,20 @@
-<div class="menu-item" mat-button [ngClass]="{'active': menuText === 'activeTest', 'hasChild': children.length > 0}">
+
+<div class="menu-item" (click)="goToPage(menuDetails.router,menuIndex)" [ngClass]="{'active': menuIndex === showChildIndex, 'hasChild': menuDetails.children.length > 0}">
   <div class="design-top"></div>
   <div class="design-bottom"></div>
 
-  <a class="router-link" *ngIf="children.length == 0">
-    <div class="icon"><img src="../../../../../assets/img/icons/{{menuIcon}}.png" alt="{{menuIcon}}"></div>
-    <div class="text">{{menuText}}</div>
+  <a class="router-link" *ngIf="menuDetails.children.length == 0">
+    <div class="icon"><img src="../../../../../assets/img/icons/{{menuDetails.icon}}.png" alt="{{menuDetails.icon}}"></div>
+    <div class="text">{{menuDetails.menuText}}</div>
   </a>
 
-  <a class="router-link" *ngIf="children.length > 0" (click)="showChild(menuIndex)">
-    <div class="icon"><img src="../../../../../assets/img/icons/{{menuIcon}}.png" alt="{{menuIcon}}"></div>
-    <div class="text">{{menuText}}</div>
+  <a class="router-link" *ngIf="menuDetails.children.length > 0" (click)="showChild(menuIndex)">
+    <div class="icon"><img src="../../../../../assets/img/icons/{{menuDetails.icon}}.png" alt="{{menuDetails.icon}}"></div>
+    <div class="text">{{menuDetails.menuText}}</div>
   </a>
 
-  <ng-container *ngIf="children.length > 0 && menuIndex === showChildIndex">
-    <div class="menu-item child"  *ngFor="let child of children">
+  <ng-container *ngIf="menuDetails.children.length > 0 && menuIndex === showChildIndex">
+    <div class="menu-item child"  *ngFor="let child of menuDetails.children">
       <a class="router-link">
         <div class="icon"><img src="../../../../../assets/img/icons/{{child.icon}}.png" alt="{{child.icon}}"></div>
         <div class="text">{{child.menuText}}</div>

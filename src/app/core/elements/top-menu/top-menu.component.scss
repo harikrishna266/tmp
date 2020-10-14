@@ -1,0 +1,36 @@
+@import "../../../../assets/scss/variables.scss";
+
+.app-menu {
+	background: #fff;
+	height: 60px;
+	width: 100%;
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: row;
+
+	&::ng-deep{
+		.menu-item {
+			border-radius: 0 !important;
+			color: $primary-color;
+			border-right: 1px solid $border-color;
+			margin: 0;
+			height: 100%;
+			padding: 0 25px 0 15px !important;
+			display: flex;
+
+			&:after{
+				border-radius: 0;
+				opacity: 0.1 !important;
+			}
+
+			.router-link {
+				align-items: center;
+			}
+
+			.design-bottom,
+			.design-top {
+				display: none;
+			}
+		}
+	}
+  }

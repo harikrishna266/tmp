@@ -1,48 +1,132 @@
 <div class="dashboard">
-  <div class="dashboard-left" cdkDropListGroup>
-    <div class="section">
-      <div class="section-title">
-        Flights Inbound
-      </div>
-      <div cdkDropList [cdkDropListData]="inBoundFlights" #inBoundFlightsList="cdkDropList" [cdkDropListConnectedTo]="[queueFlightsList]">
-        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of inBoundFlights" cdkDrag [cdkDragData]="item"></app-h-card>
-      </div>
-    </div>
+	<div class="dashboard-left" cdkDropListGroup>
+		<div class="section">
+			<div class="section-title">
+				Flights Inbound
+				<button class="search-button">
+					<mat-icon>search</mat-icon>
+				</button>
 
-    <div class="section">
-      <div class="section-title">
-        Flights in Queue
-      </div>
-      <div cdkDropList [cdkDropListData]="queueFlights" #queueFlightsList="cdkDropList" [cdkDropListConnectedTo]="[padQueueFlightsList, gateQueueFlightsList]">
-        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of queueFlights" cdkDrag [cdkDragData]="item"></app-h-card>
-      </div>
-    </div>
+			</div>
+			<div cdkDropList [cdkDropListData]="inBoundFlights[0].data" #inBoundFlightsList="cdkDropList"
+				[cdkDropListConnectedTo]="[queueFlightsList]">
+				<app-h-card [type]="inBoundFlights[0].property" [cardDetails]="item"
+					*ngFor="let item of inBoundFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
+			</div>
+		</div>
 
-    <div class="section">
-      <div class="section-title">
-        Flights Outbound
-      </div>
-      <div cdkDropList [cdkDropListData]="queueFlights" #outBoundFlightsList="cdkDropList" [cdkDropListConnectedTo]="[padQueueFlightsList]">
-        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of outBoundFlights" cdkDrag [cdkDragData]="item"></app-h-card>
-      </div>
-    </div>
-  </div>
-  <div class="dashboard-center">
-    <div class="pad">
+		<div class="section">
+			<div class="section-title">
+				Flights in Queue
 
-      <div style="width: 200px;" cdkDropList [cdkDropListData]="padQueueList" #padQueueFlightsList="cdkDropList" [cdkDropListConnectedTo]="[queueFlightsList]" (cdkDropListDropped)="drop($event)">
-        Pad
-        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of padQueueList" cdkDrag [cdkDragData]="item"></app-h-card>
-      </div>
+				<button class="search-button">
+					<mat-icon>search</mat-icon>
+				</button>
 
-      <div style="width: 200px; height: 200p;" cdkDropList [cdkDropListData]="gateQueueList" #gateQueueFlightsList="cdkDropList" [cdkDropListConnectedTo]="[queueFlightsList]" (cdkDropListDropped)="drop($event)">
-        gate
-        <app-h-card [icon]="item.iconDetails" [content]="item.cardContent" *ngFor="let item of gateQueueList" cdkDrag [cdkDragData]="item"></app-h-card>
-      </div>
+			</div>
+			<div cdkDropList [cdkDropListData]="queueFlights[0].data" #queueFlightsList="cdkDropList"
+				[cdkDropListConnectedTo]="[inBoundFlightsList,padQueueFlightsList, gateQueueFlightsList]">
+				<app-h-card [type]="queueFlights[0].property" [cardDetails]="item"
+					*ngFor="let item of queueFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
+			</div>
+		</div>
 
-    </div>
-  </div>
-  <div class="dashboard-right">
-    Right
-  </div>
+		<div class="section">
+			<div class="section-title">
+				Flights Outbound
+
+				<button class="search-button">
+					<mat-icon>search</mat-icon>
+				</button>
+			</div>
+			<div cdkDropList [cdkDropListData]="outBoundFlights[0].data" #outBoundFlightsList="cdkDropList"
+				[cdkDropListConnectedTo]="[padQueueFlightsList]">
+				<app-h-card [type]="outBoundFlights[0].property" [cardDetails]="item"
+					*ngFor="let item of outBoundFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
+			</div>
+		</div>
+	</div>
+	<div class="dashboard-center">
+		<div class="pad">
+
+			<div style="width: 200px;" cdkDropList [cdkDropListData]="padQueueList" #padQueueFlightsList="cdkDropList"
+				[cdkDropListConnectedTo]="[queueFlightsList]" (cdkDropListDropped)="drop($event)">
+				Pad
+				<app-h-card [cardDetails]="item" *ngFor="let item of padQueueList" cdkDrag [cdkDragData]="item">
+				</app-h-card>
+			</div>
+
+			<div style="width: 200px; height: 200p;" cdkDropList [cdkDropListData]="gateQueueList"
+				#gateQueueFlightsList="cdkDropList" [cdkDropListConnectedTo]="[queueFlightsList]"
+				(cdkDropListDropped)="drop($event)">
+				gate
+				<app-h-card [cardDetails]="item" *ngFor="let item of gateQueueList" cdkDrag [cdkDragData]="item">
+				</app-h-card>
+			</div>
+
+		</div>
+	</div>
+	<div class="dashboard-right">
+		Equipments
+
+		<div class="trucks-wrapper">
+
+			<div class="section available">
+				<h2>Available</h2>
+				<div class="truck">
+					<app-truck-icon fillAmount="50"></app-truck-icon>
+				</div>
+
+				<div class="truck">
+					<app-truck-icon fillAmount="50"></app-truck-icon>
+				</div>
+
+				<div class="truck">
+					<app-truck-icon fillAmount="50"></app-truck-icon>
+				</div>
+
+			</div>
+
+
+			<div class="section active">
+				<h2>Active</h2>
+				<div class="truck">
+					<app-truck-icon fillAmount="100"></app-truck-icon>
+				</div>
+
+				<div class="truck">
+					<app-truck-icon fillAmount="10"></app-truck-icon>
+				</div>
+
+				<div class="truck">
+					<app-truck-icon fillAmount="90"></app-truck-icon>
+				</div>
+
+			</div>
+
+			<div class="section idle">
+				<h2>Idle</h2>
+				<div class="truck">
+					<app-truck-icon fillAmount="15"></app-truck-icon>
+				</div>
+
+				<div class="truck">
+					<app-truck-icon fillAmount="80"></app-truck-icon>
+				</div>
+
+				<div class="truck">
+					<app-truck-icon fillAmount="60"></app-truck-icon>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="glycol-status">
+			<div class="title">Glycol Status</div>
+			<div class="percentage">{{gyColStatus}}%</div>
+			<div class="fill" [style.height.%]="gyColStatus">
+
+			</div>
+		</div>
+	</div>
 </div>

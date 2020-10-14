@@ -1,0 +1,36 @@
+.truck {
+	position: relative;
+
+	img {
+		width: 100%;
+	}
+
+	.tank {
+		position: absolute;
+		background: #818080;
+		border-radius: 23px;
+		width: 64%;
+		height: 41%;
+		top: 24%;
+		left: 10%;
+		overflow: hidden;
+
+		.fill {
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			width: 0;
+			background: #38B71F;
+			border-radius: 30px;
+			transition: all 2s ease;
+		}
+
+		.text {
+			position: relative;
+			z-index: 5;
+			width: 100%;
+			text-align: center;
+		}
+	}
+}

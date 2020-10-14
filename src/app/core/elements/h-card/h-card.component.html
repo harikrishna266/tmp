@@ -1,11 +1,11 @@
-<div class="h-card" >
+<div class="h-card" [ngClass]="type">
   <div class="icon">
-    <app-flight-icon [flightColor]="icon.color"></app-flight-icon>
+    <app-flight-icon [flightColor]="cardDetails.iconDetails.color"></app-flight-icon>
   </div>
   <div class="card-content">
     <div>
-      <div class="content-title">{{content.title}}</div>
-      <div class="content">{{content.content}}</div>
+      <div class="content-title" *ngIf="cardDetails.cardContent.title">{{cardDetails.cardContent.title}}</div>
+      <div class="content" *ngIf="cardDetails.cardContent.content">{{cardDetails.cardContent.content}}</div>
     </div>
   </div>
 </div>

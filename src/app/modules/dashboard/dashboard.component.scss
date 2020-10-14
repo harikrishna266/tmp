@@ -27,6 +27,15 @@
         z-index: 10;
         padding: 10px 0;
 
+		.search-button{
+			background: none;
+			border: 0;
+			float: right;
+			color: #fff;
+			cursor: pointer;
+			margin-top: -5px;
+			outline: none;
+		}
       }
 
       &::ng-deep {
@@ -67,4 +76,106 @@
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.dashboard-right {
+	display: flex;
+	flex-direction: column;
+
+	.section {
+		max-height: 33%;
+		margin-bottom: 10px;
+		border-radius: 4px;
+		padding: 10px;
+		overflow: auto;
+
+		h2 {
+			font-size: 16px;
+			margin: 5px;
+			line-height: normal;
+		}
+
+		&.available{
+			background: #51ACB7;
+		}
+
+		&.active {
+			background: #1F827F;
+		}
+
+		&.idle {
+			background: #455176;
+		}
+	}
+
+	.glycol-status {
+		width: 116px;
+		height: 145px;
+		position: relative;
+		border-radius: 4px;
+		overflow: hidden;
+		background: #666;
+		padding: 10px;
+
+		&::after{
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			content: "";
+			background: url(../../../assets/img/fuel-pattern.png) repeat;
+			top: 0;
+			z-index: 2;
+		}
+
+		.title {
+			text-align: center;
+			position: relative;
+			z-index: 10;
+		}
+
+		.percentage {
+			position: absolute;
+			left: 0;
+			bottom: 30px;
+			right: 0;
+			text-align: center;
+			font-size: 25px;
+			z-index: 10
+		}
+
+		.fill {
+			background: #38B71F;
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			height: 45%;
+			z-index: 0;
+			transition: all 3s ease;
+
+			&::after{
+				content: "";
+				width: 80%;
+				left: -10px;
+				position: absolute;
+				top: -5px;
+				height: 20px;
+				background: inherit;
+				border-radius: 50%;
+			}
+
+			&::before{
+				content: "";
+				width: 50%;
+				right: 0;
+				position: absolute;
+				top: -5px;
+				height: 20px;
+				background: inherit;
+				border-radius: 50%;
+				transform: rotate(-10deg);
+			}
+		}
+	}
 }

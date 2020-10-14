@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from "@angular/router";
+
 
 @Component({
   selector: 'app-menu-item',
@@ -6,17 +8,15 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./menu-item.component.scss']
 })
 export class MenuItemComponent implements OnInit {
-  @Input() menuIcon;
-  @Input() menuText;
-  @Input() children;
+  @Input() menuDetails;
   @Input() menuIndex;
-  @Input() routerUrl;
 
   showChildIndex;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+	  console.log(this.menuDetails)
   }
 
   showChild(index){
@@ -27,5 +27,17 @@ export class MenuItemComponent implements OnInit {
     }
 
   }
+
+  goToPage(url, index){
+	
+
+	this.router.navigateByUrl(url).then(e => {
+		if (e) {
+		  console.log("Navigation is successful!");
+		} else {
+		  console.log("Navigation has failed!");
+		}
+	  });
+}
 
 }

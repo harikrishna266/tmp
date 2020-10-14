@@ -4,7 +4,7 @@
 		<app-logo></app-logo>
 	</div>
   <div class="tree-menu">
-    <app-menu-item [routerUrl]="menu.router" [menuIcon]="menu.icon" [menuText]="menu.menuText" [children]="menu.children" [menuIndex]="i" *ngFor="let menu of menus; let i = index"></app-menu-item>
+    <app-menu-item [menuDetails]="menu" [menuIndex]="i" *ngFor="let menu of menus; let i = index"></app-menu-item>
 
     <!-- <app-menu-item [menuIcon]="'icon'" [menuText]="'activeTest'" [children]="[]"></app-menu-item> -->
   </div>
