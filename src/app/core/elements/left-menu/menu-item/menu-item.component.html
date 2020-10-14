@@ -3,19 +3,19 @@
   <div class="design-bottom"></div>
 
   <a class="router-link" *ngIf="children.length == 0">
-    <div class="icon">{{menuIcon}}</div>
+    <div class="icon"><img src="../../../../../assets/img/icons/{{menuIcon}}.png" alt="{{menuIcon}}"></div>
     <div class="text">{{menuText}}</div>
   </a>
 
   <a class="router-link" *ngIf="children.length > 0" (click)="showChild(menuIndex)">
-    <div class="icon">{{menuIcon}}</div>
+    <div class="icon"><img src="../../../../../assets/img/icons/{{menuIcon}}.png" alt="{{menuIcon}}"></div>
     <div class="text">{{menuText}}</div>
   </a>
 
   <ng-container *ngIf="children.length > 0 && menuIndex === showChildIndex">
     <div class="menu-item child"  *ngFor="let child of children">
       <a class="router-link">
-        <div class="icon">{{child.icon}}</div>
+        <div class="icon"><img src="../../../../../assets/img/icons/{{child.icon}}.png" alt="{{child.icon}}"></div>
         <div class="text">{{child.menuText}}</div>
       </a>
     </div>

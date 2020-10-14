@@ -22,35 +22,59 @@ export class LeftMenuComponent implements OnInit {
 
     this.menus = [
       {
-        "icon":"icon",
+        "icon":"Profile",
         "menuText":"company profile",
-        "router":"",
+        "router":"/dashboard",
         "children":[]
       },
       {
-        "icon":"icon",
+        "icon":"flight-common",
         "menuText":"Flight schedule",
-        "router":"",
+        "router":"/no-page",
+        "children":[]
+	  },
+	  {
+        "icon":"equipments",
+        "menuText":"Equipments",
+        "router":"/no-page",
         "children":[]
       },
       {
-        "icon":"icon",
+        "icon":"glycol",
         "menuText":"Glycol storage",
-        "router":"",
+        "router":"/no-page",
         "children":[
 
           {
-            "icon":"icon",
+            "icon":"glycol",
             "menuText":"Child one",
             "router":"",
           },
           {
-            "icon":"icon",
+            "icon":"glycol",
             "menuText":"Child two",
             "router":"",
           },
         ]
-      }
+	  },
+	  {
+        "icon":"truck-oporaters",
+        "menuText":"Truck operator",
+        "router":"/no-page",
+        "children":[]
+	  },
+	  {
+        "icon":"Staffs",
+        "menuText":"Staffs",
+        "router":"/no-page",
+        "children":[]
+	  },
+	  {
+        "icon":"Contracts",
+        "menuText":"Contracts",
+        "router":"/no-page",
+        "children":[]
+      },
     ]
   }
 

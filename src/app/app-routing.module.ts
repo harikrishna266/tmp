@@ -7,7 +7,8 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule) },
   {
     path: '', component: AuthComponent, children: [
-      { path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) }
+	  { path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
+	  { path: '**', loadChildren: () => import('./modules/no-page/noPage.Module').then(m => m.NoPageModule) }
     ]
   }
 

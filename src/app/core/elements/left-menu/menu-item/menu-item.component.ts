@@ -10,6 +10,7 @@ export class MenuItemComponent implements OnInit {
   @Input() menuText;
   @Input() children;
   @Input() menuIndex;
+  @Input() routerUrl;
 
   showChildIndex;
 
