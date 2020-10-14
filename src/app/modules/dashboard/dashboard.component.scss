@@ -91,13 +91,20 @@
 		height: calc(33.333% - 10px);
 		margin-bottom: 10px;
 		border-radius: 4px;
-		padding: 10px;
+		padding: 0 10px 10px 10px;
 		overflow: auto;
+		box-shadow: 0 0 5px -2px #000000;
+		position: relative;
 
 		h2 {
 			font-size: 16px;
-			margin: 5px;
+			margin: 0;
 			line-height: normal;
+			background: inherit;
+			position: sticky;
+			top: 0;
+			z-index: 15;
+			padding: 5px;
 		}
 
 		&.available{
