@@ -2,8 +2,14 @@
   background: #455176;
   height: 100%;
   padding-left: 10px;
+  width: 230px;
 
-  padding-top: 90px;
+  .logo {
+	  padding: 20px;
+	  width: 100%;
+	  display: flex;
+	  justify-content: center;
+  }
 
   .tree-menu {
     padding: 0;

@@ -1,5 +1,8 @@
 
 <div  class="app-left-bar">
+	<div class="logo">
+		<app-logo></app-logo>
+	</div>
   <div class="tree-menu">
     <app-menu-item [routerUrl]="menu.router" [menuIcon]="menu.icon" [menuText]="menu.menuText" [children]="menu.children" [menuIndex]="i" *ngFor="let menu of menus; let i = index"></app-menu-item>
 
