@@ -51,7 +51,7 @@
 
 			<div style="width: 200px;" cdkDropList [cdkDropListData]="padQueueList" #padQueueFlightsList="cdkDropList"
 				[cdkDropListConnectedTo]="[queueFlightsList]" (cdkDropListDropped)="drop($event)">
-				Pad
+				
 				<app-h-card [cardDetails]="item" *ngFor="let item of padQueueList" cdkDrag [cdkDragData]="item">
 				</app-h-card>
 			</div>
@@ -59,7 +59,7 @@
 			<div style="width: 200px; height: 200p;" cdkDropList [cdkDropListData]="gateQueueList"
 				#gateQueueFlightsList="cdkDropList" [cdkDropListConnectedTo]="[queueFlightsList]"
 				(cdkDropListDropped)="drop($event)">
-				gate
+				
 				<app-h-card [cardDetails]="item" *ngFor="let item of gateQueueList" cdkDrag [cdkDragData]="item">
 				</app-h-card>
 			</div>
