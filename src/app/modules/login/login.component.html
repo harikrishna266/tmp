@@ -1,23 +1,24 @@
 <div class="login-wrapper">
-  <div class="video-wrapper">
-
-  </div>
-  <div class="login-box">
-    <div class="logo">
-      Logo
-    </div>
-    <div class="loginForm">
-      <div class="form-item">
-        <label for="username">Username</label>
-        <input type="text" placeholder="Username">
-      </div>
-      <div class="form-item">
-        <label for="username">Username</label>
-        <input type="password" placeholder="password">
-      </div>
-
-      <button mat-button>Basic</button>
-      <app-button [buttonVal]="'Login'"></app-button>
-    </div>
-  </div>
+	<div class="video-wrapper">
+		<img src="../../../assets/img/wall.jpg" alt="" />
+	</div>
+	<div class="login-box">
+		<div class="wrapper">
+			<div class="logo">
+				<app-logo></app-logo>
+			</div>
+			<div class="loginForm">
+				<div class="form-item">
+					<label class="label" for="username">USER NAME</label>
+					<input class="input" type="text" placeholder="Username">
+				</div>
+				<div class="form-item">
+					<label class="label" for="username">PASSWORD</label>
+					<input class="input" type="password" placeholder="password">
+				</div>
+				<button class="btn">Login</button>
+				<!-- <app-button [buttonVal]="'Login'"></app-button> -->
+			</div>
+		</div>
+	</div>
 </div>
