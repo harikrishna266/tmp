@@ -9,6 +9,7 @@ import { HCardComponent } from "./h-card/h-card.component";
 import { LogoComponent } from "./logo/logo.component";
 import { TopMenuComponent } from "./top-menu/top-menu.component";
 import { TruckIconComponent } from './truck-icon/truck-icon.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
 	declarations: [
@@ -22,7 +23,11 @@ import { TruckIconComponent } from './truck-icon/truck-icon.component';
 		TruckIconComponent,
 		
 	],
-	imports: [CommonModule, MaterialModules],
+	imports: [
+		CommonModule,
+		MaterialModules,
+		RouterModule
+	],
 	exports: [
 		LeftMenuComponent,
 		ButtonComponent,

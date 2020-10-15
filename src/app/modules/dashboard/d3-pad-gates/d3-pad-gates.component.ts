@@ -115,6 +115,120 @@ export const data = {
 					]
 				}
 			]
+		},
+		{
+			data: {
+				id: 'wait 1',
+			},
+			children: [
+				{
+					data:  {
+						id: 'wait 2'
+					},
+					children: [
+						{
+							data:  {
+								id: 'wait 3'
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			data: {
+				id: 'wait 1',
+			},
+			children: [
+				{
+					data:  {
+						id: 'wait 2'
+					},
+					children: [
+						{
+							data:  {
+								id: 'wait 3'
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			data: {
+				id: 'wait 1',
+			},
+			children: [
+				{
+					data:  {
+						id: 'wait 2'
+					},
+					children: [
+						{
+							data:  {
+								id: 'wait 3'
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			data: {
+				id: 'wait 1',
+			},
+			children: [
+				{
+					data:  {
+						id: 'wait 2'
+					},
+					children: [
+						{
+							data:  {
+								id: 'wait 3'
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			data: {
+				id: 'wait 1',
+			},
+			children: [
+				{
+					data:  {
+						id: 'wait 2'
+					},
+					children: [
+						{
+							data:  {
+								id: 'wait 3'
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			data: {
+				id: 'wait 1',
+			},
+			children: [
+				{
+					data:  {
+						id: 'wait 2'
+					},
+					children: [
+						{
+							data:  {
+								id: 'wait 3'
+							}
+						}
+					]
+				}
+			]
 		}
 	]
 };

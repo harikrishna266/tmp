@@ -1,5 +1,5 @@
 
-<div class="menu-item" (click)="goToPage(menuDetails.router,menuIndex)" [ngClass]="{'active': menuIndex === showChildIndex, 'hasChild': menuDetails.children.length > 0}">
+<div class="menu-item"   [routerLinkActive]=" menuDetails.router ? 'active-link': ''" [routerLink]="menuDetails.router"  [ngClass]="{'active': menuIndex === showChildIndex, 'hasChild': menuDetails.children.length > 0}">
   <div class="design-top"></div>
   <div class="design-bottom"></div>
 
