@@ -3,41 +3,35 @@ import { Router } from "@angular/router";
 
 
 @Component({
-  selector: 'app-menu-item',
-  templateUrl: './menu-item.component.html',
-  styleUrls: ['./menu-item.component.scss']
+	selector: 'app-menu-item',
+	templateUrl: './menu-item.component.html',
+	styleUrls: ['./menu-item.component.scss']
 })
 export class MenuItemComponent implements OnInit {
-  @Input() menuDetails;
-  @Input() menuIndex;
+	@Input() menuDetails;
+	@Input() menuIndex;
 
-  showChildIndex;
+	showChildIndex;
 
-  constructor(private router: Router) { }
+	constructor(private router: Router) { }
 
-  ngOnInit(): void {
-	  console.log(this.menuDetails)
-  }
+	ngOnInit(): void { }
 
-  showChild(index){
-    if(this.showChildIndex == index){
-      this.showChildIndex = null
-    }else{
-      this.showChildIndex = index
-    }
-
-  }
-
-  goToPage(url, index){
-	
-
-	this.router.navigateByUrl(url).then(e => {
-		if (e) {
-		  console.log("Navigation is successful!");
+	showChild(index) {
+		if (this.showChildIndex == index) {
+			this.showChildIndex = null
 		} else {
-		  console.log("Navigation has failed!");
+			this.showChildIndex = index
 		}
-	  });
-}
+
+	}
+
+	goToPage(url, index) {
+
+
+		this.router.navigateByUrl(url).then(e => {
+
+		});
+	}
 
 }

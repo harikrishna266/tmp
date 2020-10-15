@@ -17,7 +17,6 @@ export class LeftMenuComponent implements OnInit {
   ngOnInit(): void {
     // this.MenusService.get().subscribe((res:any) => {
     //   this.menus = res.data;
-    //   console.log(this.menus)
     // });
 
     this.menus = [

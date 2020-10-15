@@ -11,8 +11,6 @@ export class HCardComponent implements OnInit {
   @Input() type;
   constructor() { }
 
-  ngOnInit(): void {
-	console.log(this.type)
-  }
+  ngOnInit(): void { }
 
 }

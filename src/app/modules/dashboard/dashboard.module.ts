@@ -6,8 +6,12 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { D3PadGatesComponent } from './d3-pad-gates/d3-pad-gates.component';
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [
+	  DashboardComponent,
+	  D3PadGatesComponent
+	],
   imports: [
     CommonModule,
     DashboardRoutingModule,

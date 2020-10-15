@@ -9,8 +9,6 @@ export class FlightIconComponent implements OnInit {
   @Input() flightColor;
   constructor() { }
 
-  ngOnInit(): void {
-    console.log(this.flightColor)
-  }
+  ngOnInit(): void { }
 
 }

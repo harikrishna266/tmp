@@ -67,3 +67,11 @@ input:-internal-autofill-selected,
 input:-webkit-autofill {
 	background-color: transparent;
 }
+
+
+svg {
+	path {
+		fill: none !important;
+		stroke: #56c2a3 !important;
+	}
+}
