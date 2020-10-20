@@ -1,6 +1,14 @@
 import { AfterViewInit, Component, ElementRef, HostBinding, OnInit } from '@angular/core';
 import { from } from 'rxjs';
-import { select, tree, zoom, hierarchy, linkHorizontal, event } from 'd3';
+import {sankey, align, sankeyLinkHorizontal} from 'd3-sankey';
+import { drag } from 'd3-drag';
+import {select, selectAll} from 'd3-selection';
+
+import { link } from 'fs';
+import { maxHeaderSize } from 'http';
+
+
+
 
 
 @Component({
@@ -17,7 +25,13 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 	public height;
 	public width;
 	public pads = 15;
-	public  margin = { top: 0, right: 50, bottom: 0, left: 75};
+	public  margin = { top: 10, right: 10, bottom: 10, left: 10};
+	public graph;
+	public sankeyGraph: sankey;
+	public path;
+	public  d3 = {select, selectAll}
+	public linkThickness  = 30;
+
 
 	constructor(private el: ElementRef) { }
 
@@ -26,209 +40,140 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.setinitialSVG();
-		// this.createZoom();
 		this.getData();
-		this.renderTree();
-		
+		this.renderGraph();
 	}
-
-	// createZoom(): void {
-	// 	this.zoomG = this.svg
-	// 		.attr('width', this.width)
-	// 		.attr('height', this.height)
-	// 		.append('g');
-
-	// 	const g = this.zoomG.append('g')
-	// 		.attr('transform', `translate(${this.margin.left},${this.margin.top})`);
-
-	// 	this.svg.call(zoom().on('zoom', () => {
-	// 		this.zoomG.attr('transform', event.transform);
-	// 	}));
-	// }
 
 	setinitialSVG(): void {
 		this.height = this.el.nativeElement.clientHeight;
-		this.width = this.el.nativeElement.clientHeight;
-		console.log(this.height, this.width);
+		this.width = this.el.nativeElement.clientWidth;
 		this.svg = select('svg');
 		this.svg
-			.attr('width', this.width)
+			.attr('width', this.width )
 			.attr('height', this.height)
-			.append('g');
-
-		const innerWidth = this.width - this.margin.left - this.margin.right;
-		const innerHeight = this.height - this.margin.top - this.margin.bottom;
-
-		this.treeLayout = tree().size([innerWidth,   innerHeight]);
+			.attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 	}
 
 	getData(): void {
-		const flights = [];
-		
-		this.data = data;
-		console.log(this.data);
+		const generateNodes = (type, start, count) => {
+			const inBay = [];
+			for (let i = start; i <= start + count; i++) {
+				inBay.push({ id: i, name: `${type} ${i}`, type });
+			}
+			return inBay;
+		};
+
+		const inbays = generateNodes('inbay', 0, 14);
+		const pads = generateNodes('pads', 15, 14);
+		const outbay = generateNodes('outbay', 30, 0);
+		const links = [];
+		for (let i = 0; i < 14; i++) {
+			let value = 1;
+			let merged = false;
+			if(i === 7) {
+				continue;
+			} 
+			if(i === 8) {
+				value = 2;
+				merged = true;
+			}
+			links.push(
+				{ source: i, target: i + 15, value: {value, merged }},
+				{ source: i + 15, target: 30, value: {value, merged }},
+			)
+		}
+		this.data = { nodes : [ ...inbays, ...pads , ...outbay ], links };
 	}
 
-	renderTree(): void {
-		const root = hierarchy(this.data);
-		const links = this.treeLayout(root).links();
-		const linkPathGenerator = linkHorizontal().x(d => d.y).y(d => d.x);
-		this.svg.selectAll('path').data(links).enter().append('path').attr('d', linkPathGenerator);
+	renderGraph(): void {
+		this.sankeyGraph = sankey()
+			.iterations(6)
+			.size([this.width, this.height]);
 
-		this.svg.selectAll('text')
-		.data(root.descendants())
-		.enter().append('text')
-			.attr('x', d => d.y)
-			.attr('y', d => d.x)
-			.attr('text-anchor', d => d.children ? 'middle' : 'start')
-			.text(d => d.data.data.id);
+		const path = this.sankeyGraph.links();
 
 
-		console.log(this.svg.selectAll('text')
-		.data(root.descendants())
-		.enter())
-		// .append('image')
-		// .attr("xlink:href", function(d) { return 'https://user-images.githubusercontent.com/3151700/69676637-0fd6d680-1099-11ea-85ab-2a9e68229328.png'})
+		const {nodes, links}  = this.sankeyGraph(this.data);
+
+		this.svg.append('g')
+			.selectAll('.link')
+			.data(links)
+			.enter().append('path')
+			.attr('class', 'link')
+			.attr('d', sankeyLinkHorizontal())
+			.attr('stroke-width', (d) => d.value.value * this.linkThickness );
+
+
+		const node = this.svg.append('g')
+			.selectAll('.node')
+			.data(nodes)
+			.enter().append('g')
+			.attr('class', 'node');
+
+
+		const bayWidth = (d) => {
+			console.log(d);
+			if(d.merged ) {
+				console.log('in')
+				return this.sankeyGraph.nodeWidth() *  4;
+			} else if (d.type === 'outbay') {
+				return 100;
+			} else {
+				return this.sankeyGraph.nodeWidth() *  2;
+			}
+		}
+
+		node
+			.append('rect')
+			.attr('x', (d) =>  d.type === 'outbay' ? d.x0 - 100 : d.x0)
+			.attr('y', (d) => d.y0)
+			.attr('height', (d) => d.y1 - d.y0)
+			.attr('width',(d) =>  bayWidth(d))
+			.attr('class', (d) => `${d.type} node-rect ${d.id} ${d.type}`);
+
+		const droped = (ele) => {
+			const selected = select(`.node-rect-img-${ele.subject.id}`);
+			selected.attr('opacity', 1);
+
+			const draggedEle = this.svg.select(`.drag-flight`);
+			draggedEle.attr('opacity', 0);
+			draggedEle.attr('x', 1300);
+			draggedEle.attr('y', 1300);
+
+		};
+
+		const started = (ele) => {
+			const selected = this.svg.select(`.node-rect-img-${ele.subject.id}`);
+			selected.attr('opacity', 0);
+			const draggedEle = this.svg.select(`.drag-flight`);
+			draggedEle.attr('opacity', 1);
+			draggedEle.attr('x', ele.x);
+			draggedEle.attr('y', ele.y - 70);
+		};
+
+		node
+			.filter((d) =>  d.type === 'inbay' )
+			.append('image')
+			.attr('x', (d) => d.x0)
+			.attr('y', (d) => d.y0)
+			.attr('xlink:href', 'http://localhost:4200/assets/img/icons/Flight-red.png')
+			.attr('width', 50)
+			.attr('height', 50)
+			.attr('class', (d) => `node-rect-img node-rect-img-${d.id}`)
+			.call(drag()
+				.on('drag', started)
+				.on('end', droped)
+			);
+
+		this.svg
+			.append('image')
+			.attr('class', 'drag-flight')
+			.attr('x', (d) => 1000)
+			.attr('y', (d) => 1000)
+			.attr('xlink:href', 'http://localhost:4200/assets/img/icons/Flight-red.png')
+			.attr('width', 100)
+			.attr('height', 100)
+			.attr('opacity', 1);
+
 	}
 }
-
-export const data = {
-	data: {
-		id: 'Pads'
-	},
-	children: [
-		{
-			data: {
-				id: 'wait 1',
-			},
-			children: [
-				{
-					data:  {
-						id: 'wait 2'
-					},
-					children: [
-						{
-							data:  {
-								id: 'wait 3'
-							}
-						}
-					]
-				}
-			]
-		},
-		{
-			data: {
-				id: 'wait 1',
-			},
-			children: [
-				{
-					data:  {
-						id: 'wait 2'
-					},
-					children: [
-						{
-							data:  {
-								id: 'wait 3'
-							}
-						}
-					]
-				}
-			]
-		},
-		{
-			data: {
-				id: 'wait 1',
-			},
-			children: [
-				{
-					data:  {
-						id: 'wait 2'
-					},
-					children: [
-						{
-							data:  {
-								id: 'wait 3'
-							}
-						}
-					]
-				}
-			]
-		},
-		{
-			data: {
-				id: 'wait 1',
-			},
-			children: [
-				{
-					data:  {
-						id: 'wait 2'
-					},
-					children: [
-						{
-							data:  {
-								id: 'wait 3'
-							}
-						}
-					]
-				}
-			]
-		},
-		{
-			data: {
-				id: 'wait 1',
-			},
-			children: [
-				{
-					data:  {
-						id: 'wait 2'
-					},
-					children: [
-						{
-							data:  {
-								id: 'wait 3'
-							}
-						}
-					]
-				}
-			]
-		},
-		{
-			data: {
-				id: 'wait 1',
-			},
-			children: [
-				{
-					data:  {
-						id: 'wait 2'
-					},
-					children: [
-						{
-							data:  {
-								id: 'wait 3'
-							}
-						}
-					]
-				}
-			]
-		},
-		{
-			data: {
-				id: 'wait 1',
-			},
-			children: [
-				{
-					data:  {
-						id: 'wait 2'
-					},
-					children: [
-						{
-							data:  {
-								id: 'wait 3'
-							}
-						}
-					]
-				}
-			]
-		}
-	]
-};
