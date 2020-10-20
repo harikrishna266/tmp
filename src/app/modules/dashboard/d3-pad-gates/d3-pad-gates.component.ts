@@ -6,6 +6,9 @@ import {select, selectAll} from 'd3-selection';
 
 import { link } from 'fs';
 import { maxHeaderSize } from 'http';
+import { range } from 'rxjs';
+import { ConsoleReporter } from 'jasmine';
+
 
 
 
@@ -20,13 +23,13 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 
 	public numberOfPad = 15;
-	public mergedPad = [2, 6];
+	public mergedPad = [2, 6, 4];
 	public svg;
 	public data;
 	public treeLayout;
 	public height;
 	public width;
-	public pads = 15;
+	public padsLength = 15;
 	public  margin = { top: 10, right: 10, bottom: 10, left: 10};
 	public graph;
 	public sankeyGraph: sankey;
@@ -60,40 +63,34 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		const generateNodes = (type) => {
 			const inBay = [];
 			const remainingPads = this.numberOfPad - this.mergedPad.length;
-			const tmpArray = new Array(remainingPads);
+			console.log(remainingPads, new Array(String(remainingPads)));
+			const tmpArray = Array.apply(null, Array(remainingPads)).map( (x, i) =>  i );
+			let count = 0;
 			tmpArray.map((e, index) => {
-				inBay.push({ id: index, name: `${type} ${index}`, type });
+				inBay.push({ id: count, name: `in-bay in-bay-${count}`, type: 'inbay' });
+				count = count + 1;
+				return e;
 			});
-			// return inBay;
-			const links = [];
-			tmpArray.map((e, index) => {
-				{ source: index, target: i + 15, value},
+			const pads = [];
+			tmpArray.map((e) => {
+				pads.push({ id: count, name: `pad pad-${count}`, type: 'pad' });
+				count = count + 1;
 			});
+			const outbay = [ { id: count, name: 'out bay', type: 'outbay' } ];
+			return {nodes: [...inBay, ...pads, ...outbay]}
 		};
 
 		const inbays = generateNodes('inbay');
-		const pads = generateNodes('pads');
-		const outbay = generateNodes('outbay');
-		const links = [];
-
-		
-		for (let i = 0; i < 14; i++) {
-			let value = 1;
-			let merged = false;
-			if (i === 7) {
-				continue;
-			}
-			if (i === 8) {
-				value = 2;
-				merged = true;
-			}
-			links.push(
-				{ source: i, target: i + 15, value},
-				{ source: i + 15, target: 30, value},
-			)
+		const remainingPads = this.numberOfPad - this.mergedPad.length;
+		let links = [];
+		for (let i = 0; i < remainingPads; i ++ ) {
+			const value = this.mergedPad.includes(i) ? 3 : 1;
+			links = [...links,
+					{ source: i, target: i + remainingPads, value},
+					{ source: i + remainingPads, target: inbays.nodes.length - 1, value}
+				]
 		}
-		this.data = data;
-		// console.log(JSON.stringify(this.data));
+		this.data = Object.assign({}, {links}, inbays);
 	}
 
 	renderGraph(): void {
