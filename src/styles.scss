@@ -74,4 +74,35 @@ svg {
 		fill: none !important;
 		stroke: #56c2a3 !important;
 	}
+
+
+	.link {
+		fill: none;
+		stroke: #000;
+		stroke-opacity: .2;
+	}
+	.link:hover {
+		stroke-opacity: .5;
+	}
+}
+
+.link {
+	fill: green;
+	stroke: rgba(247, 11, 11, 0.822);
+	stroke-opacity: 1;
+}
+
+.node-rect {
+	fill: #3fa799;
+	stroke: none;
+}
+
+.node {
+	fill: rgb(103, 101, 252);
+	stroke: rgba(10, 224, 21, 0.822);
+	stroke-opacity: 1;
+}
+
+.link:hover {
+	stroke-opacity: .5;
 }
