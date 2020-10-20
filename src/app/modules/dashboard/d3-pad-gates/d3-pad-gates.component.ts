@@ -23,7 +23,8 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 
 	public numberOfPad = 15;
-	public mergedPad = [2, 6, 4];
+	public mergedPad = [1];
+	public nodesWithFlight = [0]
 	public svg;
 	public data;
 	public treeLayout;
@@ -60,28 +61,29 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 	}
 
 	getData(): void {
+		const remainingPads = this.numberOfPad - this.mergedPad.length;
 		const generateNodes = (type) => {
 			const inBay = [];
-			const remainingPads = this.numberOfPad - this.mergedPad.length;
-			console.log(remainingPads, new Array(String(remainingPads)));
+			
 			const tmpArray = Array.apply(null, Array(remainingPads)).map( (x, i) =>  i );
 			let count = 0;
+			const isMerged = (index) =>  this.mergedPad.includes(index);
+			const flightOn = (index) =>  this.nodesWithFlight.includes(index);
 			tmpArray.map((e, index) => {
-				inBay.push({ id: count, name: `in-bay in-bay-${count}`, type: 'inbay' });
+				inBay.push({ id: count, name: `in-bay in-bay-${count}`, type: 'inbay', merged: isMerged(index), flightOn: flightOn(index) });
 				count = count + 1;
 				return e;
 			});
 			const pads = [];
-			tmpArray.map((e) => {
-				pads.push({ id: count, name: `pad pad-${count}`, type: 'pad' });
+			tmpArray.map((e, index) => {
+				pads.push({ id: count, name: `pad pad-${count}`, type: 'pad' , merged: isMerged(index), flightOn: flightOn(count)});
 				count = count + 1;
 			});
-			const outbay = [ { id: count, name: 'out bay', type: 'outbay' } ];
+			const outbay = [ { id: count, name: 'out bay', type: 'outbay', } ];
 			return {nodes: [...inBay, ...pads, ...outbay]}
 		};
 
 		const inbays = generateNodes('inbay');
-		const remainingPads = this.numberOfPad - this.mergedPad.length;
 		let links = [];
 		for (let i = 0; i < remainingPads; i ++ ) {
 			const value = this.mergedPad.includes(i) ? 3 : 1;
@@ -109,7 +111,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			.enter().append('path')
 			.attr('class', 'link')
 			.attr('d', sankeyLinkHorizontal())
-			.attr('stroke-width', (d) => d.value * this.linkThickness );
+			.attr('stroke-width', (d) => 10 );
 
 
 		const node = this.svg.append('g')
@@ -132,14 +134,6 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			}
 		}
 
-		node
-			.append('rect')
-			.attr('x', (d) =>  d.type === 'outbay' ? d.x0 - 100 : d.x0)
-			.attr('y', (d) => d.y0)
-			.attr('height', (d) => d.y1 - d.y0)
-			.attr('width',(d) =>  bayWidth(d))
-			.attr('class', (d) => `${d.type} node-rect ${d.id} ${d.type}`);
-
 		const droped = (ele) => {
 			const selected = select(`.node-rect-img-${ele.subject.id}`);
 			selected.attr('opacity', 1);
@@ -161,18 +155,31 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		};
 
 		node
-			.filter((d) =>  d.type === 'inbay' )
-			.append('image')
-			.attr('x', (d) => d.x0)
+			.append('rect')
+			.attr('x', (d) =>  d.type === 'outbay' ? d.x0 - 100 : d.x0)
 			.attr('y', (d) => d.y0)
+			.attr('height', (d) => d.y1 - d.y0)
+			.attr('width',(d) =>  bayWidth(d))
+			.attr('class', (d) => `${d.type} node-rect ${d.id} ${d.type}`)
+
+		node
+			.filter((d) => d.flightOn === true )
+			.append('image')
+			.attr('x', (d) => d.merged ?  d.x0  : d.x0)
+			.attr('y', (d) => d.merged ?  d.y0 + 20 : d.y0)
 			.attr('xlink:href', 'http://localhost:4200/assets/img/icons/Flight-red.png')
-			.attr('width', 50)
-			.attr('height', 50)
+			.attr('width', (d) => d.merged ?  70 : 40)
+			.attr('height', (d) => d.merged ?  70 : 40)
 			.attr('class', (d) => `node-rect-img node-rect-img-${d.id}`)
 			.call(drag()
 				.on('drag', started)
 				.on('end', droped)
-			);
+			)
+		node.append('text')
+			.attr('x', (d) =>   d.x0 +  bayWidth(d) + 10)
+			.attr('y', (d) => d.y0 + ((d.y1 - d.y0)/2))
+			.text((d) =>  `${d.index} - ${d.type}`);
+
 
 		this.svg
 			.append('image')
