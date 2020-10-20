@@ -19,6 +19,8 @@ import { maxHeaderSize } from 'http';
 export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 
+	public numberOfPad = 15;
+	public mergedPad = [2, 6];
 	public svg;
 	public data;
 	public treeLayout;
@@ -55,34 +57,43 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 	}
 
 	getData(): void {
-		const generateNodes = (type, start, count) => {
+		const generateNodes = (type) => {
 			const inBay = [];
-			for (let i = start; i <= start + count; i++) {
-				inBay.push({ id: i, name: `${type} ${i}`, type });
-			}
-			return inBay;
+			const remainingPads = this.numberOfPad - this.mergedPad.length;
+			const tmpArray = new Array(remainingPads);
+			tmpArray.map((e, index) => {
+				inBay.push({ id: index, name: `${type} ${index}`, type });
+			});
+			// return inBay;
+			const links = [];
+			tmpArray.map((e, index) => {
+				{ source: index, target: i + 15, value},
+			});
 		};
 
-		const inbays = generateNodes('inbay', 0, 14);
-		const pads = generateNodes('pads', 15, 14);
-		const outbay = generateNodes('outbay', 30, 0);
+		const inbays = generateNodes('inbay');
+		const pads = generateNodes('pads');
+		const outbay = generateNodes('outbay');
 		const links = [];
+
+		
 		for (let i = 0; i < 14; i++) {
 			let value = 1;
 			let merged = false;
-			if(i === 7) {
+			if (i === 7) {
 				continue;
-			} 
-			if(i === 8) {
+			}
+			if (i === 8) {
 				value = 2;
 				merged = true;
 			}
 			links.push(
-				{ source: i, target: i + 15, value: {value, merged }},
-				{ source: i + 15, target: 30, value: {value, merged }},
+				{ source: i, target: i + 15, value},
+				{ source: i + 15, target: 30, value},
 			)
 		}
-		this.data = { nodes : [ ...inbays, ...pads , ...outbay ], links };
+		this.data = data;
+		// console.log(JSON.stringify(this.data));
 	}
 
 	renderGraph(): void {
@@ -101,7 +112,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			.enter().append('path')
 			.attr('class', 'link')
 			.attr('d', sankeyLinkHorizontal())
-			.attr('stroke-width', (d) => d.value.value * this.linkThickness );
+			.attr('stroke-width', (d) => d.value * this.linkThickness );
 
 
 		const node = this.svg.append('g')
@@ -112,9 +123,10 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 
 		const bayWidth = (d) => {
-			console.log(d);
+			// if(!d.sourceLinks[0] ) {
+			// 	return;
+			// }
 			if(d.merged ) {
-				console.log('in')
 				return this.sankeyGraph.nodeWidth() *  4;
 			} else if (d.type === 'outbay') {
 				return 100;
