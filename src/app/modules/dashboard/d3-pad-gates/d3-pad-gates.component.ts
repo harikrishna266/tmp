@@ -48,20 +48,11 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 	setinitialSVG(): void {
 		this.height = this.el.nativeElement.clientHeight;
 		this.width = this.el.nativeElement.clientWidth;
-		console.log(this.height, this.width);
 		this.svg = select('svg');
 		this.svg
 			.attr('width', this.width )
 			.attr('height', this.height)
-			// .append('g')
 			.attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
-
-
-		// const sankeyObj = sankey()
-		// .nodeWidth(36)
-		// .nodePadding(10)
-		// .size([this.width, this.height]);
-
 	}
 
 	getData(): void {
@@ -78,12 +69,20 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		const outbay = generateNodes('outbay', 30, 0);
 		const links = [];
 		for (let i = 0; i < 14; i++) {
+			let value = 1;
+			let merged = false;
+			if(i === 7) {
+				continue;
+			} 
+			if(i === 8) {
+				value = 2;
+				merged = true;
+			}
 			links.push(
-				{ source: i, target: i + 15, value: 1 },
-				{ source: i + 15, target: 30, value: 1 },
+				{ source: i, target: i + 15, value, merged },
+				{ source: i + 15, target: 30, value, merged },
 			)
 		}
-		console.log(links);
 		this.data = { nodes : [
 				...inbays, ...pads , ...outbay
 			],
@@ -117,32 +116,73 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			.attr('class', 'node');
 
 
+		const bayWidth = (d) => {
+			console.log(d);
+			if(d.merged ) {
+				console.log('in')
+				return this.sankeyGraph.nodeWidth() *  4;
+			} else if (d.type === 'outbay') {
+				return 100;
+			} else {
+				return this.sankeyGraph.nodeWidth() *  2;
+			}
+		}
+
 		node
-			.filter((d) =>  d.type === 'inbay' )
 			.append('rect')
-			.attr('x', (d) => d.x0)
+			.attr('x', (d) =>  d.type === 'outbay' ? d.x0 - 100 : d.x0)
 			.attr('y', (d) => d.y0)
 			.attr('height', (d) => d.y1 - d.y0)
-			.attr('width', this.sankeyGraph.nodeWidth() *  2)
-			.attr('class', (d) => `node-rect ${d.id} ${d.type}`)
-			.append('image')
-			.attr('xlink:href', (d) =>  'http://localhost:4200/assets/img/icons/Flight-red.png')
-			.attr('width', 50);
-			
-			// .call(drag()
-			// 	.on("drag", started)
-			// 	.on("end", droped)
-			// );
+			.attr('width',(d) =>  bayWidth(d))
+			.attr('class', (d) => `${d.type} node-rect ${d.id} ${d.type}`);
 
-		// node
-		// 	.filter((d) =>  d.type === 'pad')
+		const droped = (ele) => {
+			const selected = select(`.node-rect-img-${ele.subject.id}`);
+			selected.attr('opacity', 1);
+
+			const draggedEle = this.svg.select(`.drag-flight`);
+			draggedEle.attr('opacity', 0);
+			draggedEle.attr('x', 1300);
+			draggedEle.attr('y', 1300);
+
+		};
+
+		const started = (ele) => {
+			const selected = this.svg.select(`.node-rect-img-${ele.subject.id}`);
+			selected.attr('opacity', 0);
+			const draggedEle = this.svg.select(`.drag-flight`);
+			draggedEle.attr('opacity', 1);
+			draggedEle.attr('x', ele.x);
+			draggedEle.attr('y', ele.y - 50);
+		};
+
+		node
+			.filter((d) =>  d.type === 'inbay' )
+			.append('image')
+			.attr('x', (d) => d.x0)
+			.attr('y', (d) => d.y0)
+			.attr('xlink:href', 'http://localhost:4200/assets/img/icons/Flight-red.png')
+			.attr('width', 50)
+			.attr('height', 50)
+			.attr('class', (d) => `node-rect-img node-rect-img-${d.id}`)
+			.call(drag()
+				.on('drag', started)
+				.on('end', droped)
+			);
+
+		this.svg
+			.append('image')
+			.attr('class', 'drag-flight')
+			.attr('x', (d) => 1000)
+			.attr('y', (d) => 1000)
+			.attr('xlink:href', 'http://localhost:4200/assets/img/icons/Flight-red.png')
+			.attr('width', 70)
+			.attr('height', 70)
+			.attr('opacity', 1);
+
 	}
 
-		// const started = (ele) => {
-		// 	const draggedEle = select(`.node-rect-img-${ele.subject.id}`);
-		// 	draggedEle.attr('x', ele.x);
-		// 	draggedEle.attr('y', ele.y);
-		// };
+		
 
 
 		// const droped = (ele) => {

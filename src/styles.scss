@@ -93,8 +93,24 @@ svg {
 }
 
 .node-rect {
-	fill: #3fa799;
+	fill: #445176;
 	stroke: none;
+
+	&:hover, img {
+		cursor: grab;
+	}
+
+	.node-rect-img {
+		cursor: grab;
+	}
+
+	&.pads {
+		fill: #D59E51;
+	}
+
+	&.outbay {
+		fill: #F14438;
+	}
 }
 
 .node {
