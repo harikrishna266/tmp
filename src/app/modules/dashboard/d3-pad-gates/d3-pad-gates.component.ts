@@ -7,7 +7,6 @@ import {select, selectAll} from 'd3-selection';
 import { link } from 'fs';
 import { maxHeaderSize } from 'http';
 import { range } from 'rxjs';
-import { ConsoleReporter } from 'jasmine';
 
 
 
@@ -24,7 +23,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 	public numberOfPad = 15;
 	public mergedPad = [1];
-	public nodesWithFlight = [0, 1, 2, 3, 4]
+	public nodesWithFlight = [3, 15]
 	public svg;
 	public data;
 	public treeLayout;
@@ -117,6 +116,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			this.svg.selectAll('.node').filter(e =>  e.source.id === nodeId).attr('class', 'highlight');
 		}
 	}
+
 	heightLightLink(nodeId, deSelect = false): any {
 		if (deSelect) { 
 			this.svg.selectAll('.link').filter(e =>  e.source.id === nodeId).attr('class', 'link');
@@ -183,7 +183,6 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			draggedEle.attr('opacity', 1);
 			draggedEle.attr('x', ele.x);
 			draggedEle.attr('y', ele.y );
-			this.
 			this.heightLightLink(ele.subject.id);
 			this.heightLightNode(ele.target.id);
 		};
