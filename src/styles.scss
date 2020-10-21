@@ -69,27 +69,36 @@ input:-webkit-autofill {
 }
 
 
-svg {
-	path {
-		fill: none !important;
-		stroke: #56c2a3 !important;
-	}
+// svg {
+// 	path {
+// 		fill: none !important;
+		
+// 	}
 
 
-	.link {
-		fill: none;
-		stroke: #000;
-		stroke-opacity: .2;
-	}
-	.link:hover {
-		stroke-opacity: .5;
-	}
-}
+// 	.link {
+// 		fill: none;
+// 		stroke: #000;
+// 		stroke-opacity: .2;
+		
+// 	}
+
+// 	.link:hover {
+// 		stroke-opacity: .5;
+// 	}
+// }
 
 .link {
-	fill: green;
-	stroke: rgba(247, 11, 11, 0.822);
 	stroke-opacity: 1;
+	stroke: #56c2a3 !important;
+}
+
+.highlight {
+	stroke: rgb(6, 194, 252) !important;
+}
+
+.node-text {
+	font-size: 12px;
 }
 
 .node-rect {
@@ -115,10 +124,5 @@ svg {
 
 .node {
 	fill: rgb(103, 101, 252);
-	stroke: rgba(10, 224, 21, 0.822);
 	stroke-opacity: 1;
-}
-
-.link:hover {
-	stroke-opacity: .5;
 }

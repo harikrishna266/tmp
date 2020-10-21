@@ -24,7 +24,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 	public numberOfPad = 15;
 	public mergedPad = [1];
-	public nodesWithFlight = [0]
+	public nodesWithFlight = [0, 1, 2, 3, 4]
 	public svg;
 	public data;
 	public treeLayout;
@@ -46,7 +46,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.setinitialSVG();
-		this.getData();
+		this.generateSankeyData();
 		this.renderGraph();
 	}
 
@@ -60,11 +60,10 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			.attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 	}
 
-	getData(): void {
+	generateSankeyData(): void {
 		const remainingPads = this.numberOfPad - this.mergedPad.length;
 		const generateNodes = (type) => {
 			const inBay = [];
-			
 			const tmpArray = Array.apply(null, Array(remainingPads)).map( (x, i) =>  i );
 			let count = 0;
 			const isMerged = (index) =>  this.mergedPad.includes(index);
@@ -79,7 +78,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 				pads.push({ id: count, name: `pad pad-${count}`, type: 'pad' , merged: isMerged(index), flightOn: flightOn(count)});
 				count = count + 1;
 			});
-			const outbay = [ { id: count, name: 'out bay', type: 'outbay', } ];
+			const outbay = [ { id: count, name: 'out bay', type: 'outbay', flights: [1, 2, 3] } ];
 			return {nodes: [...inBay, ...pads, ...outbay]}
 		};
 
@@ -95,8 +94,41 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		this.data = Object.assign({}, {links}, inbays);
 	}
 
+	detectDropedEle(ele) {
+		const rects = this.svg.selectAll('.node').data();
+
+		this.svg.selectAll('.highlight').attr('class', 'link');
+		this.heightLightLink(ele.subject.id, true);
+		rects.map(e => {
+			const xmin = e.x0; const ymin = e.y0; const xmax = e.x1; const ymax = e.y1;
+			const x1 = ele.x; const y1 = ele.y; const x2 = ele.x + 15; const y2 = ele.y + 15;
+			if (x2 >= xmin && x1 <= xmax && y2 >= ymin && y1 <= ymax) {
+				// this.detectAllLinksOfNode(e.id);
+			} else {
+				this.heightLightLink(ele.subject.id, true);
+			}
+		});
+	}
+
+	heightLightNode(nodeId, deSelect = false) : any {
+		if (deSelect) {
+			this.svg.selectAll('.node').filter(e =>  e.source.id === nodeId).attr('class', 'link');
+		} else {
+			this.svg.selectAll('.node').filter(e =>  e.source.id === nodeId).attr('class', 'highlight');
+		}
+	}
+	heightLightLink(nodeId, deSelect = false): any {
+		if (deSelect) { 
+			this.svg.selectAll('.link').filter(e =>  e.source.id === nodeId).attr('class', 'link');
+		} else {
+			this.svg.selectAll('.link').filter(e =>  e.source.id === nodeId).attr('class', 'highlight');
+		}
+	}
+
 	renderGraph(): void {
 		this.sankeyGraph = sankey()
+			.nodeWidth(30)
+			.nodePadding(10)
 			.iterations(6)
 			.size([this.width, this.height]);
 
@@ -111,7 +143,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			.enter().append('path')
 			.attr('class', 'link')
 			.attr('d', sankeyLinkHorizontal())
-			.attr('stroke-width', (d) => 10 );
+			.attr('stroke-width', (d) => d.value * this.linkThickness );
 
 
 		const node = this.svg.append('g')
@@ -122,9 +154,6 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 
 		const bayWidth = (d) => {
-			// if(!d.sourceLinks[0] ) {
-			// 	return;
-			// }
 			if(d.merged ) {
 				return this.sankeyGraph.nodeWidth() *  4;
 			} else if (d.type === 'outbay') {
@@ -135,6 +164,8 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		}
 
 		const droped = (ele) => {
+			this.heightLightLink(ele.subject.id, true);
+			this.detectDropedEle(ele);
 			const selected = select(`.node-rect-img-${ele.subject.id}`);
 			selected.attr('opacity', 1);
 
@@ -151,7 +182,10 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			const draggedEle = this.svg.select(`.drag-flight`);
 			draggedEle.attr('opacity', 1);
 			draggedEle.attr('x', ele.x);
-			draggedEle.attr('y', ele.y - 70);
+			draggedEle.attr('y', ele.y );
+			this.
+			this.heightLightLink(ele.subject.id);
+			this.heightLightNode(ele.target.id);
 		};
 
 		node
@@ -178,8 +212,12 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		node.append('text')
 			.attr('x', (d) =>   d.x0 +  bayWidth(d) + 10)
 			.attr('y', (d) => d.y0 + ((d.y1 - d.y0)/2))
+			.attr('class', 'node-text')
 			.text((d) =>  `${d.index} - ${d.type}`);
 
+		node
+			.filter((d) => d.type === 'outbay' )
+			.append()
 
 		this.svg
 			.append('image')
@@ -187,8 +225,8 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			.attr('x', (d) => 1000)
 			.attr('y', (d) => 1000)
 			.attr('xlink:href', 'http://localhost:4200/assets/img/icons/Flight-red.png')
-			.attr('width', 100)
-			.attr('height', 100)
+			.attr('width', 50)
+			.attr('height', 50)
 			.attr('opacity', 1);
 
 	}
