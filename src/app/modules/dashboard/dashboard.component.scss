@@ -81,6 +81,8 @@
 .dashboard-right {
 	display: flex;
 	flex-direction: column;
+	position: relative;
+	z-index: 2000;
 
 	.trucks-wrapper {
 		height: calc(100% - 170px);

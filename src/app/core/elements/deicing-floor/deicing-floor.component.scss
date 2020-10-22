@@ -1,0 +1,50 @@
+.floor-details {
+	width: 600px;
+	background: #1D2B50;
+	height: 400px;
+	margin:0 -24px;
+	display: flex;
+	padding: 20px;
+
+	.left,
+	.right {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.flight {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.truck-position {
+		width: 100px;
+		height: 100px;
+		border: 1px dashed #fff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+.mat-dialog-content {
+	max-height: auto;
+}
+
+.text-center {
+	text-align: center;
+	color: #1D2B50;
+}
+
+.mat-dialog-actions {
+	justify-content: space-between;
+}
+
+.mat-button.ok {
+	background: #1D2B50;
+	color: #fff;
+}
+

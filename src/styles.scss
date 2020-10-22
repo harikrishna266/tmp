@@ -126,3 +126,9 @@ input:-webkit-autofill {
 	fill: rgb(103, 101, 252);
 	stroke-opacity: 1;
 }
+
+.deicing-floor {
+	.mat-dialog-content {
+		max-height: none;
+	}
+}

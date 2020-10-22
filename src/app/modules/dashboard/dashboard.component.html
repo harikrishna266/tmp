@@ -9,13 +9,13 @@
 
 			</div>
 			<div cdkDropList [cdkDropListData]="inBoundFlights[0].data" #inBoundFlightsList="cdkDropList"
-				[cdkDropListConnectedTo]="[queueFlightsList]">
-				<app-h-card [type]="inBoundFlights[0].property" [cardDetails]="item"
+				[cdkDropListConnectedTo]="[]">
+				<app-h-card [type]="inBoundFlights[0].property" [cardDetails]="item" (click)="openDeicingFloor()"
 					*ngFor="let item of inBoundFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
 			</div>
 		</div>
 
-		<div class="section">
+		<!-- <div class="section">
 			<div class="section-title">
 				Flights in Queue
 
@@ -29,9 +29,9 @@
 				<app-h-card [type]="queueFlights[0].property" [cardDetails]="item"
 					*ngFor="let item of queueFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
 			</div>
-		</div>
+		</div> -->
 
-		<div class="section">
+		<!-- <div class="section">
 			<div class="section-title">
 				Flights Outbound
 
@@ -44,7 +44,7 @@
 				<app-h-card [type]="outBoundFlights[0].property" [cardDetails]="item"
 					*ngFor="let item of outBoundFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<div class="dashboard-center"  fxLayout="row" fxLayoutAlign="start stretch" >
 		<app-d3-pad-gates></app-d3-pad-gates>	

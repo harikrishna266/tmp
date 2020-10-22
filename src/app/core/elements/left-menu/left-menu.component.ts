@@ -29,19 +29,19 @@ export class LeftMenuComponent implements OnInit {
 			{
 				"icon": "flight-common",
 				"menuText": "Flight schedule",
-				"router": "/no-ss",
+				"router": "/flight_schedule",
 				"children": []
 			},
 			{
 				"icon": "equipments",
 				"menuText": "Equipments",
-				"router": "/no-page",
+				"router": "/equipments",
 				"children": []
 			},
 			{
 				"icon": "glycol",
 				"menuText": "Glycol storage",
-				"router": "/no-page",
+				"router": "/glycol_storage",
 				"children": [
 
 					{
@@ -59,19 +59,19 @@ export class LeftMenuComponent implements OnInit {
 			{
 				"icon": "truck-oporaters",
 				"menuText": "Truck operator",
-				"router": "/no-page",
+				"router": "/truck_oporator",
 				"children": []
 			},
 			{
 				"icon": "Staffs",
 				"menuText": "Staffs",
-				"router": "/no-page",
+				"router": "/staffs",
 				"children": []
 			},
 			{
 				"icon": "Contracts",
 				"menuText": "Contracts",
-				"router": "/no-page",
+				"router": "/contract",
 				"children": []
 			},
 		]

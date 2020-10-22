@@ -1,4 +1,7 @@
+import { DeicingFloorComponent } from './../../core/elements/deicing-floor/deicing-floor.component';
 import { Component, OnInit } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -164,7 +167,11 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  openDeicingFloor(){
+	  this.dialog.open(DeicingFloorComponent, {panelClass: 'deicing-floor'})
+  }
+
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
     setTimeout(() => {

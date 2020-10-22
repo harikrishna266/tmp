@@ -18,6 +18,11 @@
 			padding: 0 25px 0 15px !important;
 			display: flex;
 
+			&.active {
+				background:none
+			}
+			
+
 			&:after{
 				border-radius: 0;
 				opacity: 0.1 !important;

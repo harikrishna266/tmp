@@ -10,6 +10,7 @@ import { LogoComponent } from "./logo/logo.component";
 import { TopMenuComponent } from "./top-menu/top-menu.component";
 import { TruckIconComponent } from './truck-icon/truck-icon.component';
 import { RouterModule } from '@angular/router';
+import { DeicingFloorComponent } from './deicing-floor/deicing-floor.component';
 
 @NgModule({
 	declarations: [
@@ -21,6 +22,7 @@ import { RouterModule } from '@angular/router';
 		LogoComponent,
 		TopMenuComponent,
 		TruckIconComponent,
+		DeicingFloorComponent,
 		
 	],
 	imports: [

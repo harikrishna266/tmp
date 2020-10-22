@@ -1,3 +1,4 @@
 <div class="flight-icon">
-  <img src="../../../../assets/img/icons/Flight-{{flightColor}}.png" alt=""/>
+  <img src="../../../../assets/img/icons/Flight-{{flightColor}}.png" *ngIf="!size" alt=""/>
+  <img class="big-icon" src="../../../../assets/img/Flight.png" *ngIf="size" alt=""/>
 </div>

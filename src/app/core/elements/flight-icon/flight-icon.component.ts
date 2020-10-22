@@ -7,8 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class FlightIconComponent implements OnInit {
   @Input() flightColor;
+  @Input() size;
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+  }
 
 }
