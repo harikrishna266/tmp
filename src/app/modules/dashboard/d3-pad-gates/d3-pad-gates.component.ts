@@ -21,7 +21,7 @@ import { range } from 'rxjs';
 export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 
-	public numberOfPad = 15;
+	public numberOfPad = 10;
 	public mergedPad = [1];
 	public nodesWithFlight = [3, 15]
 	public svg;

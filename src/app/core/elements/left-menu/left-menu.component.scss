@@ -15,4 +15,35 @@
     padding: 0;
     margin: 0;
   }
+
+  .menu-icon {
+	cursor: pointer;
+  }
+}
+
+:host ::ng-deep{
+
+	.app-left-bar {
+		transition: all .5s ease;
+
+		
+
+		&.short {
+			width: 91px;
+			.menu-item {
+
+				.router-link {
+					overflow: hidden;
+				}
+				.text {
+					position: relative;
+					left: 50% !important;
+					opacity: 0;
+					
+				}
+			}
+		}
+	}
+	
+	
 }

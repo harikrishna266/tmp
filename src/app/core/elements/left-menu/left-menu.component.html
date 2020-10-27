@@ -1,8 +1,11 @@
 
-<div  class="app-left-bar">
+<div  class="app-left-bar short" [ngClass]="{'short':menuShort}">
 	<div class="logo">
-		<app-logo></app-logo>
+		<app-logo [size]="logoSize"></app-logo>
 	</div>
+ <div class="menu-icon" (click)="minMaxMenu()">
+	 <img src="../../../../assets/img/icons/menu-icon.png" alt=""/>
+ </div>
   <div class="tree-menu">
     <app-menu-item [menuDetails]="menu" [menuIndex]="i" *ngFor="let menu of menus; let i = index"></app-menu-item>
 

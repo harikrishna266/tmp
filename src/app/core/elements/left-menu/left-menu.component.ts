@@ -9,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeftMenuComponent implements OnInit {
 	menus: any
+	menuShort:boolean =  true
+	logoSize:string = "short"
 	constructor(
 		public MenusService: MenusService,
 	) { }
@@ -22,7 +24,7 @@ export class LeftMenuComponent implements OnInit {
 		this.menus = [
 			{
 				"icon": "Profile",
-				"menuText": "company profile",
+				"menuText": "Company profile",
 				"router": "/dashboard",
 				"children": []
 			},
@@ -75,6 +77,18 @@ export class LeftMenuComponent implements OnInit {
 				"children": []
 			},
 		]
+	}
+
+	minMaxMenu(){
+		
+		this.menuShort = !this.menuShort ? true : false
+
+		if(this.logoSize == "big"){
+			this.logoSize = "short"
+		}else{
+			this.logoSize = "big"
+		}	
+		
 	}
 
 }
