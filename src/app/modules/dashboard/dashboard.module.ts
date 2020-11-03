@@ -8,11 +8,13 @@ import { DashboardComponent } from './dashboard.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { D3PadGatesComponent } from './d3-pad-gates/d3-pad-gates.component';
 import { PadsOverviewComponent } from './pads-overview/pads-overview.component';
+import { D3GatesComponent } from './d3-gates/d3-gates.component';
 @NgModule({
   declarations: [
 	  DashboardComponent,
 	  D3PadGatesComponent,
-	  PadsOverviewComponent
+	  PadsOverviewComponent,
+	  D3GatesComponent
 	],
   imports: [
     CommonModule,

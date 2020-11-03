@@ -7,7 +7,8 @@ import {select, selectAll} from 'd3-selection';
 import { link } from 'fs';
 import { maxHeaderSize } from 'http';
 import { range } from 'rxjs';
-
+import { DeicingFloorComponent } from 'src/app/core/elements/deicing-floor/deicing-floor.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 
@@ -21,9 +22,11 @@ import { range } from 'rxjs';
 export class D3PadGatesComponent implements OnInit, AfterViewInit {
 
 
+	public preInboundFlights = [];
 	public numberOfPad = 10;
 	public mergedPad = [1];
-	public nodesWithFlight = [3, 15]
+	public nodesWithFlight = [1, 10];
+	public outBayFlights = [];
 	public svg;
 	public data;
 	public treeLayout;
@@ -34,11 +37,14 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 	public graph;
 	public sankeyGraph: sankey;
 	public path;
-	public  d3 = {select, selectAll}
+	public  d3 = {select, selectAll};
 	public linkThickness  = 30;
 
 
-	constructor(private el: ElementRef) { }
+	constructor(
+		private el: ElementRef,
+		public dialog: MatDialog
+		) { }
 
 	ngOnInit(): void {
 	}
@@ -47,6 +53,42 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		this.setinitialSVG();
 		this.generateSankeyData();
 		this.renderGraph();
+
+		console.log('i2');
+		const card = select('.inbound');
+
+		card.call(drag()
+			.on('drag', (e) => {
+				card.style('top', 100 + e.y + 'px');
+				card.style('left', 100 +  e.x + 'px');
+				card.style('position', 'absolute');
+				card.style('z-index', 111111);
+				console.log('drag');
+				return ;
+			})
+			.on('end',  (e) => {
+				this.dropToInBay(e, ['inbay']);
+			})
+		)
+
+	}
+
+
+	dropToInBay(ele, type) {
+		const rects = this.svg.selectAll('.node-rect').data().filter(e => e = type.includes(e.type));
+		rects.map(e => {
+			const xmin = e.x0; const ymin = e.y0; const xmax = e.x0 + (this.sankeyGraph.nodeWidth() * 4); const ymax = e.y1;
+			const eleX1 = ele.x; const eley1 = ele.y; const eleX2 = ele.x + 10; const eleY2 = ele.y  + 10;
+			console.log(xmin, ymin, xmax, ymax);
+			console.log(eleX1, eley1, eleX2, eleY2);
+			if (eleX1 >= xmin && eleX1 <= xmax && eleY2 >= ymin && eley1 <= ymax) {
+				console.log('droped');
+				this.flightsDropped(ele, e);
+			} else {
+				this.heightLightLink(ele.subject.id, true);
+			}
+		});
+
 	}
 
 	setinitialSVG(): void {
@@ -93,32 +135,49 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		this.data = Object.assign({}, {links}, inbays);
 	}
 
-	detectDropedEle(ele) {
-		const rects = this.svg.selectAll('.node').data();
+	detectDropedEle(ele, type = ['pad', 'outbay']) {
+		const rects = this.svg.selectAll('.node-rect').data().filter(e => e = type.includes(e.type));
 
 		this.svg.selectAll('.highlight').attr('class', 'link');
 		this.heightLightLink(ele.subject.id, true);
 		rects.map(e => {
-			const xmin = e.x0; const ymin = e.y0; const xmax = e.x1; const ymax = e.y1;
-			const x1 = ele.x; const y1 = ele.y; const x2 = ele.x + 15; const y2 = ele.y + 15;
+			const xmin = e.x0; const ymin = e.y0; const xmax = e.x0 + (this.sankeyGraph.nodeWidth() * 4); const ymax = e.y1;
+			const x1 = ele.x; const y1 = ele.y; const x2 = ele.x + 100; const y2 = ele.y  + 100;
 			if (x2 >= xmin && x1 <= xmax && y2 >= ymin && y1 <= ymax) {
-				// this.detectAllLinksOfNode(e.id);
+				this.flightsDropped(ele, e);
 			} else {
 				this.heightLightLink(ele.subject.id, true);
 			}
 		});
 	}
 
+	flightsDropped(ele, e) {
+		const removeIndex = this.nodesWithFlight.indexOf(ele.subject.id);
+		console.log(removeIndex);
+		if (removeIndex !== -1) {
+			// dropped to out bay
+			if ( e.id === this.svg.selectAll('.node').data().length - 1) {
+				this.outBayFlights.push(removeIndex);
+				this.nodesWithFlight.splice(removeIndex, 1);
+			} else {
+				this.nodesWithFlight.splice(removeIndex, 1);
+				this.nodesWithFlight = [...this.nodesWithFlight, e.id];
+			}
+			this.svg.selectAll('svg > *').remove();
+			this.ngAfterViewInit();
+		}
+	}
+
 	heightLightNode(nodeId, deSelect = false) : any {
 		if (deSelect) {
-			this.svg.selectAll('.node').filter(e =>  e.source.id === nodeId).attr('class', 'link');
+			this.svg.selectAll('.node').filter(e =>  e.source && e.source.id === nodeId).attr('class', 'link');
 		} else {
-			this.svg.selectAll('.node').filter(e =>  e.source.id === nodeId).attr('class', 'highlight');
+			this.svg.selectAll('.node').filter(e =>  e.source && e.source.id === nodeId).attr('class', 'highlight');
 		}
 	}
 
 	heightLightLink(nodeId, deSelect = false): any {
-		if (deSelect) { 
+		if (deSelect) {
 			this.svg.selectAll('.link').filter(e =>  e.source.id === nodeId).attr('class', 'link');
 		} else {
 			this.svg.selectAll('.link').filter(e =>  e.source.id === nodeId).attr('class', 'highlight');
@@ -190,6 +249,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		node
 			.append('rect')
 			.attr('x', (d) =>  d.type === 'outbay' ? d.x0 - 100 : d.x0)
+			.on('click', (d) => this.openDeicingFloor())
 			.attr('y', (d) => d.y0)
 			.attr('height', (d) => d.y1 - d.y0)
 			.attr('width',(d) =>  bayWidth(d))
@@ -204,19 +264,18 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			.attr('width', (d) => d.merged ?  70 : 40)
 			.attr('height', (d) => d.merged ?  70 : 40)
 			.attr('class', (d) => `node-rect-img node-rect-img-${d.id}`)
+			.on('click', (d) => this.openDeicingFloor())
 			.call(drag()
 				.on('drag', started)
 				.on('end', droped)
-			)
+			);
+
+
 		node.append('text')
 			.attr('x', (d) =>   d.x0 +  bayWidth(d) + 10)
 			.attr('y', (d) => d.y0 + ((d.y1 - d.y0)/2))
 			.attr('class', 'node-text')
 			.text((d) =>  `${d.index} - ${d.type}`);
-
-		node
-			.filter((d) => d.type === 'outbay' )
-			.append()
 
 		this.svg
 			.append('image')
@@ -228,5 +287,19 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 			.attr('height', 50)
 			.attr('opacity', 1);
 
+		this.outBayFlights.map((e, index) => {
+			node.filter((d) => d.type === 'outbay' )
+			.on('click', (d) => this.openDeicingFloor())
+			.append('image')
+			.attr('x', (d) => d.x0 - 80   )
+			.attr('y', (d) => (index * 120) + 80 )
+			.attr('xlink:href', 'http://localhost:4200/assets/img/icons/Flight-red.png')
+		})
 	}
+
+	openDeicingFloor() {
+		console.log('i');
+		this.dialog.open(DeicingFloorComponent, { panelClass: 'deicing-floor' })
+	}
+
 }
