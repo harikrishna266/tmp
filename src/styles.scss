@@ -90,7 +90,12 @@ input:-webkit-autofill {
 
 .link {
 	stroke-opacity: 1;
-	stroke: #56c2a3 !important;
+	stroke: #0f0f0f96 !important;
+	fill:  #0f0f0f96 !important;
+	cursor: pointer;
+	&:hover {
+		stroke: #0f0f0f !important;
+	}
 }
 
 .highlight {
@@ -132,3 +137,14 @@ input:-webkit-autofill {
 		max-height: none;
 	}
 }
+
+.drag-flight {
+	border: 2px solid red !important;
+}
+
+#container {
+	top: 50%;
+	left: 50%;
+	position: fixed;
+	transform: translate(-50%, -50%);
+	}

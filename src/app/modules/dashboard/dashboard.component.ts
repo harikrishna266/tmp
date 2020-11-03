@@ -1,181 +1,181 @@
 import { DeicingFloorComponent } from './../../core/elements/deicing-floor/deicing-floor.component';
 import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
+	CdkDragDrop,
+	moveItemInArray,
+	transferArrayItem,
 } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+	selector: 'app-dashboard',
+	templateUrl: './dashboard.component.html',
+	styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  
-  public iconDetails = {
-    color: 'yellow',
-  };
 
-  public cardContent = {
-    title: 'Air Costa',
-    content: '#125425',
-  };
+	public iconDetails = {
+		color: 'yellow',
+	};
 
-  public gyColStatus: Number;
+	public cardContent = {
+		title: 'Air Costa',
+		content: '#125425',
+	};
 
-  public inBoundFlights = [
-    {
-      property: 'inbound',
-      data: [
-        {
-          iconDetails: {
-            color: 'red',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
+	public gyColStatus: Number;
 
-        {
-          iconDetails: {
-            color: 'red',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
+	public inBoundFlights = [
+		{
+			property: 'inbound',
+			data: [
+				{
+					iconDetails: {
+						color: 'red',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
 
-        {
-          iconDetails: {
-            color: 'red',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
+				{
+					iconDetails: {
+						color: 'red',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
 
-        {
-          iconDetails: {
-            color: 'red',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
-      ],
-    },
-  ];
+				{
+					iconDetails: {
+						color: 'red',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
 
-  queueFlights = [
-    {
-      property: 'queue',
-      data: [
-        {
-          iconDetails: {
-            color: 'yellow',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
+				{
+					iconDetails: {
+						color: 'red',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
+			],
+		},
+	];
 
-        {
-          iconDetails: {
-            color: 'yellow',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
+	queueFlights = [
+		{
+			property: 'queue',
+			data: [
+				{
+					iconDetails: {
+						color: 'yellow',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
 
-        {
-          iconDetails: {
-            color: 'yellow',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
+				{
+					iconDetails: {
+						color: 'yellow',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
 
-        {
-          iconDetails: {
-            color: 'yellow',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
-      ],
-    },
-  ];
+				{
+					iconDetails: {
+						color: 'yellow',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
 
-  outBoundFlights = [
-    {
-      property: 'outbound',
-      data: [
-        {
-          iconDetails: {
-            color: 'red',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
+				{
+					iconDetails: {
+						color: 'yellow',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
+			],
+		},
+	];
 
-        {
-          iconDetails: {
-            color: 'red',
-          },
-          cardContent: {
-            title: 'Air Costa',
-            content: '#125425',
-          },
-        },
-      ],
-    },
-  ];
+	outBoundFlights = [
+		{
+			property: 'outbound',
+			data: [
+				{
+					iconDetails: {
+						color: 'red',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
 
-  padQueueList = [];
-  gateQueueList = [];
+				{
+					iconDetails: {
+						color: 'red',
+					},
+					cardContent: {
+						title: 'Air Costa',
+						content: '#125425',
+					},
+				},
+			],
+		},
+	];
 
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-  }
+	padQueueList = [];
+	gateQueueList = [];
 
-  openDeicingFloor(){
-	  this.dialog.open(DeicingFloorComponent, {panelClass: 'deicing-floor'})
-  }
+	drop(event: CdkDragDrop<string[]>) {
+		if (event.previousContainer === event.container) {
+			moveItemInArray(
+				event.container.data,
+				event.previousIndex,
+				event.currentIndex
+			);
+		} else {
+			transferArrayItem(
+				event.previousContainer.data,
+				event.container.data,
+				event.previousIndex,
+				event.currentIndex
+			);
+		}
+	}
 
-  constructor(public dialog: MatDialog) { }
+	openDeicingFloor() {
+		this.dialog.open(DeicingFloorComponent, { panelClass: 'deicing-floor' })
+	}
 
-  ngOnInit(): void {
-    setTimeout(() => {
-      this.gyColStatus = 75
-    })
-  }
+	constructor(public dialog: MatDialog) { }
+
+	ngOnInit(): void {
+		setTimeout(() => {
+			this.gyColStatus = 75
+		})
+	}
 }

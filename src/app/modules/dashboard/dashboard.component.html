@@ -8,7 +8,7 @@
 				</button>
 
 			</div>
-			<div cdkDropList [cdkDropListData]="inBoundFlights[0].data" #inBoundFlightsList="cdkDropList"
+			<div cdkDropList  [cdkDropListData]="inBoundFlights[0].data" #inBoundFlightsList="cdkDropList"
 				[cdkDropListConnectedTo]="[]">
 				<app-h-card [type]="inBoundFlights[0].property" [cardDetails]="item" (click)="openDeicingFloor()"
 					*ngFor="let item of inBoundFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
