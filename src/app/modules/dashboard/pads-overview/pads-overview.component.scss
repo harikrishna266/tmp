@@ -4,13 +4,10 @@
 }
 
 .app-pads-overview {
-    height:calc(100% - 15px);
+    height:100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: rgba(0,0,0,.2);
-    margin-top: 15px;
-    border-radius: 5px;
 
     .pads {
         height: 50%;
