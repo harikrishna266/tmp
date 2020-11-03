@@ -7,10 +7,12 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { D3PadGatesComponent } from './d3-pad-gates/d3-pad-gates.component';
+import { PadsOverviewComponent } from './pads-overview/pads-overview.component';
 @NgModule({
   declarations: [
 	  DashboardComponent,
-	  D3PadGatesComponent
+	  D3PadGatesComponent,
+	  PadsOverviewComponent
 	],
   imports: [
     CommonModule,
