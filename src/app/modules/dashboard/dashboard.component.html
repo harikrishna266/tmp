@@ -14,51 +14,25 @@
 					*ngFor="let item of inBoundFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
 			</div>
 		</div>
-
-		<!-- <div class="section">
-			<div class="section-title">
-				Flights in Queue
-
-				<button class="search-button">
-					<mat-icon>search</mat-icon>
-				</button>
-
-			</div>
-			<div cdkDropList [cdkDropListData]="queueFlights[0].data" #queueFlightsList="cdkDropList"
-				[cdkDropListConnectedTo]="[inBoundFlightsList]">
-				<app-h-card [type]="queueFlights[0].property" [cardDetails]="item"
-					*ngFor="let item of queueFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
-			</div>
-		</div> -->
-
-		<!-- <div class="section">
-			<div class="section-title">
-				Flights Outbound
-
-				<button class="search-button">
-					<mat-icon>search</mat-icon>
-				</button>
-			</div>
-			<div cdkDropList [cdkDropListData]="outBoundFlights[0].data" #outBoundFlightsList="cdkDropList"
-				[cdkDropListConnectedTo]="[]">
-				<app-h-card [type]="outBoundFlights[0].property" [cardDetails]="item"
-					*ngFor="let item of outBoundFlights[0].data" cdkDrag [cdkDragData]="item"></app-h-card>
-			</div>
-		</div> -->
 	</div>
 	<div class="dashboard-center"  fxLayout="row" fxLayoutAlign="start stretch" >
 
-		<mat-tab-group class="h-full white full-width-tab">
+		<mat-tab-group selectedIndex="0" (selectedTabChange)="changeTab($event)" class="h-full white full-width-tab">
 			<mat-tab label="Overview"> 
 				<div class="graph-wrapper">
-					<app-d3-pad-gates></app-d3-pad-gates>	
 				</div>
 			</mat-tab>
 			<mat-tab label="Pads"> 
 				Pads	
 			</mat-tab>
-			<mat-tab label="Terminal"> Terminals</mat-tab>
-			<mat-tab label="Remote"> Remote pads </mat-tab>
+			<mat-tab label="Terminal">
+				
+			</mat-tab>
+			<mat-tab label="Remote">
+				<div class="graph-wrapper">
+					<app-d3-pad-gates  *ngIf="tabIndex === 3"></app-d3-pad-gates>	
+				</div>
+			</mat-tab>
 		  </mat-tab-group>
 
 		

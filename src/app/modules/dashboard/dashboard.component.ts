@@ -15,6 +15,7 @@ import {
 })
 export class DashboardComponent implements OnInit {
 
+	tabIndex = 0;
 	public iconDetails = {
 		color: 'yellow',
 	};
@@ -177,5 +178,9 @@ export class DashboardComponent implements OnInit {
 		setTimeout(() => {
 			this.gyColStatus = 75
 		})
+	}
+
+	changeTab(event){
+		this.tabIndex = event.index;
 	}
 }

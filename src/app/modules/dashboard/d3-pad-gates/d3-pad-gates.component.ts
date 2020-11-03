@@ -14,7 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
 
 
 
-
 @Component({
 	selector: 'app-d3-pad-gates',
 	templateUrl: './d3-pad-gates.component.html',
@@ -55,6 +54,7 @@ export class D3PadGatesComponent implements OnInit, AfterViewInit {
 		this.generateSankeyData();
 		this.renderGraph();
 
+		console.log('i2');
 		const card = select('.inbound');
 
 		card.call(drag()
