@@ -138,13 +138,33 @@ input:-webkit-autofill {
 	}
 }
 
-.drag-flight {
-	border: 2px solid red !important;
+.h-full {
+	height: 100%;
+
+	.mat-tab-body-wrapper {
+		height: 100%;
+	}
 }
 
-#container {
-	top: 50%;
-	left: 50%;
-	position: fixed;
-	transform: translate(-50%, -50%);
+.white {
+	color: #fff;
+
+	.mat-tab-label{
+		color: #fff;
 	}
+
+	.mat-tab-header {
+		border-color: rgba(256,256,256,.2);
+	}
+
+	.mat-ink-bar {
+		background: #fff !important;
+	}
+}
+
+.full-width-tab {
+
+	.mat-tab-label {
+		width: 100%;
+	}
+}
