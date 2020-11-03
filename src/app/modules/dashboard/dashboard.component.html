@@ -19,14 +19,13 @@
 
 		<mat-tab-group selectedIndex="0" (selectedTabChange)="changeTab($event)" class="h-full white full-width-tab">
 			<mat-tab label="Overview"> 
-				<div class="graph-wrapper">
-				</div>
+				<app-pads-overview></app-pads-overview>
 			</mat-tab>
 			<mat-tab label="Pads"> 
-				<app-pads-overview></app-pads-overview>	
+				<app-d3-pad-gates  *ngIf="tabIndex === 1"></app-d3-pad-gates>	
 			</mat-tab>
-			<mat-tab label="Terminal">
-				
+			<mat-tab label="Gates">
+				<app-d3-gates *ngIf="tabIndex === 2"></app-d3-gates>	
 			</mat-tab>
 			<mat-tab label="Remote">
 				<div class="graph-wrapper">
